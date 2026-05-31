@@ -2,8 +2,10 @@ import urllib.request
 from pathlib import Path
 
 from PIL import Image
+from rich.table import Table
 
 from src import BACKUP_DIR, ensure_backup_dirs
+from src.console import console
 
 IMAGES_DIR = BACKUP_DIR / "images"
 
@@ -13,7 +15,7 @@ def download_image(url: str) -> tuple[Path, str]:
     suffix = Path(clean_url).suffix or ".img"
     stem = Path(clean_url).stem or "image"
     tmp_path = IMAGES_DIR / f"_tmp{suffix}"
-    print(f"Downloading {url} ...")
+    console.print(f"[bold]Downloading[/] [link={url}]{url}[/link] …")
     urllib.request.urlretrieve(url, tmp_path)
     return tmp_path, stem
 
@@ -45,13 +47,24 @@ def run(url: str) -> None:
         savings = original_size - output_size
         savings_pct = (savings / original_size) * 100
 
-        print(f"Original:  {original_size:,} bytes")
-        print(f"Output:    {output_size:,} bytes  →  {output_path.name}")
+        table = Table(show_header=False, box=None, padding=(0, 2))
+        table.add_column(style="dim")
+        table.add_column(justify="right")
+        table.add_row("Original", f"{original_size:,} bytes")
+        table.add_row("Output", f"{output_size:,} bytes")
+        table.add_row("File", f"[bold]{output_path.name}[/]")
+        console.print(table)
 
         if savings < 0:
-            print(f"⚠ Output is {-savings:,} bytes larger than the original ({-savings_pct:.1f}% increase).")
+            console.print(
+                f"[yellow]⚠[/] Output is [bold]{-savings:,}[/] bytes larger than the original "
+                f"([bold]{-savings_pct:.1f}%[/] increase)."
+            )
         else:
-            print(f"✓ Saved {savings:,} bytes ({savings_pct:.1f}% reduction).")
+            console.print(
+                f"[green]✓[/] Saved [bold]{savings:,}[/] bytes "
+                f"([bold green]{savings_pct:.1f}%[/] reduction)."
+            )
 
     finally:
         tmp_path.unlink(missing_ok=True)

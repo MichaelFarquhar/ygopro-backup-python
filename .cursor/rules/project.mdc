@@ -19,6 +19,10 @@ Run: `uv run main.py backup-data` or `uv run main.py backup-images <url>`.
 
 New commands: add `src/<module>.py`, wire subcommand in `src/cli.py`.
 
+## Console output
+
+Use [Rich](https://rich.readthedocs.io/) for all CLI console output. Import the shared `console` from `src.console` and prefer markup (`[bold]`, `[green]`, `[yellow]`, etc.), `Table`, and `Panel` where they improve readability.
+
 ## Agent
 
 Never run `main.py` unless the user explicitly asks.

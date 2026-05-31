@@ -8,6 +8,7 @@ from typing import Any
 import requests
 
 from src import BACKUP_DIR, ensure_backup_dirs
+from src.console import console
 
 DATA_DIR = BACKUP_DIR / "data"
 DELAY_SECONDS = 2
@@ -42,7 +43,7 @@ ENDPOINTS = (
 
 
 def _log(tag: str, message: str) -> None:
-    print(f"[{tag}] {message}")
+    console.print(f"[bold cyan]{tag}[/] {message}")
 
 
 def _record_count(data: Any) -> str:
@@ -71,5 +72,5 @@ def run() -> None:
     for index, endpoint in enumerate(ENDPOINTS):
         _backup_endpoint(endpoint)
         if index < len(ENDPOINTS) - 1:
-            _log(endpoint.tag, f"⏳ Waiting {DELAY_SECONDS}s (rate limit) …")
+            _log(endpoint.tag, f"[yellow]⏳[/] Waiting {DELAY_SECONDS}s (rate limit) …")
             time.sleep(DELAY_SECONDS)
