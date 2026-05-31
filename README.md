@@ -15,6 +15,10 @@ uv sync
 
 ## 🚀 Usage
 
+Commands create `backup/` with `data/` and `images/` subfolders automatically if missing.
+
+### Api Data
+
 Fetch card data from the YGOPRODeck API:
 
 ```bash
@@ -26,6 +30,8 @@ Output is saved under `backup/data/`:
 - `data.json` — card info
 - `archetypes.json` — archetype names
 - `cardsets.json` — TCG set metadata
+
+### Card Images
 
 Convert an image from a URL:
 

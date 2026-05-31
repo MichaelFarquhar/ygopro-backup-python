@@ -7,7 +7,7 @@ from typing import Any
 
 import requests
 
-from src import BACKUP_DIR
+from src import BACKUP_DIR, ensure_backup_dirs
 
 DATA_DIR = BACKUP_DIR / "data"
 DELAY_SECONDS = 2
@@ -65,6 +65,7 @@ def _backup_endpoint(endpoint: Endpoint) -> None:
 
 
 def run() -> None:
+    ensure_backup_dirs()
     DATA_DIR.mkdir(exist_ok=True)
 
     for index, endpoint in enumerate(ENDPOINTS):

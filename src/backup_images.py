@@ -3,7 +3,7 @@ from pathlib import Path
 
 from PIL import Image
 
-from src import BACKUP_DIR
+from src import BACKUP_DIR, ensure_backup_dirs
 
 IMAGES_DIR = BACKUP_DIR / "images"
 
@@ -32,6 +32,7 @@ def convert_to_webp(source: Path, stem: str) -> Path:
 
 
 def run(url: str) -> None:
+    ensure_backup_dirs()
     IMAGES_DIR.mkdir(exist_ok=True)
 
     tmp_path, stem = download_image(url)
