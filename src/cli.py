@@ -1,7 +1,7 @@
 import argparse
 import sys
 
-from src import backup_data, backup_images
+from src import backup_data, backup_images, verify_images
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -12,11 +12,15 @@ def build_parser() -> argparse.ArgumentParser:
 
     subparsers.add_parser("backup-data", help="Fetch card data from the YGOPRODeck API")
 
-    backup_images_parser = subparsers.add_parser(
+    subparsers.add_parser(
         "backup-images",
-        help="Download a JPEG from a URL and convert it to WEBP",
+        help="Download card images from data.json",
     )
-    backup_images_parser.add_argument("url", help="URL of the image to download and convert")
+
+    subparsers.add_parser(
+        "verify-images",
+        help="Verify image folders match _saved.json",
+    )
 
     return parser
 
@@ -28,7 +32,9 @@ def main(argv: list[str] | None = None) -> None:
     if args.command == "backup-data":
         backup_data.run()
     elif args.command == "backup-images":
-        backup_images.run(args.url)
+        backup_images.run()
+    elif args.command == "verify-images":
+        verify_images.run()
     else:
         parser.print_help()
         sys.exit(1)

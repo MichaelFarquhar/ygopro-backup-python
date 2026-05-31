@@ -1,9 +1,15 @@
-# YGOPro Data Backup Python Script
+# YGOPro Backup CLI
 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 ![UV](https://img.shields.io/badge/uv-30173d?style=for-the-badge&logo=uv&logoColor=DE5FE9)
 
-A small CLI script that downloads an image from a URL, converts it to WEBP, and applies lossless compression — reducing file size without any quality loss.
+A Python CLI for archiving YGOPro content from [YGOPRODeck](https://ygoprodeck.com/). It fetches card metadata, archetypes, and set data; downloads full and cropped card images from that data; converts images to WEBP; and verifies that saved progress matches the image folders on disk.
+
+| Command | Purpose |
+| --- | --- |
+| `backup-data` | Fetch card info, archetypes, and card sets from the YGOPRODeck API into `backup/data/` |
+| `backup-images` | Download and convert card images from `data.json` into `backup/images/{id}/` (resumable via `_saved.json`) |
+| `verify-images` | Confirm image subdirectories match the ids recorded in `_saved.json` |
 
 ## 📦 Installation
 
@@ -33,17 +39,33 @@ Output is saved under `backup/data/`:
 
 ### Card Images
 
-Convert an image from a URL:
+Download full and cropped card images from `data.json`:
 
 ```bash
-uv run main.py backup-images "https://example.com/photo.png"
+uv run main.py backup-images
 ```
 
-Output is saved to the `backup/images/` folder, named after the original file:
+Requires `backup/data/data.json` (run `backup-data` first). Progress is tracked in `backup/images/_saved.json` so interrupted runs can resume.
+
+Output layout:
 
 ```
-backup/images/photo.webp
+backup/images/
+  _saved.json
+  80181649/
+    80181649_full.webp
+    80181649_cropped.webp
 ```
+
+### Verify Images
+
+Check that image subdirectories match the ids listed in `_saved.json`:
+
+```bash
+uv run main.py verify-images
+```
+
+Exits with code 1 if any directory is missing from `_saved.json` or any saved id has no matching directory.
 
 ## 📄 License
 
