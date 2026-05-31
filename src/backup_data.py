@@ -3,13 +3,14 @@ from pathlib import Path
 
 import requests
 
+from src import BACKUP_DIR
+
 API_URL = "https://db.ygoprodeck.com/api/v7/cardinfo.php"
-BACKUP_DIR = Path(__file__).parent / "backup"
 DATA_DIR = BACKUP_DIR / "data"
 OUTPUT_PATH = DATA_DIR / "data.json"
 
 
-def main():
+def run() -> None:
     print(f"Fetching {API_URL} ...")
     response = requests.get(API_URL, timeout=120)
     response.raise_for_status()
@@ -23,7 +24,3 @@ def main():
 
     count = len(data) if isinstance(data, list) else "unknown"
     print(f"Saved {count} records to {OUTPUT_PATH}")
-
-
-if __name__ == "__main__":
-    main()

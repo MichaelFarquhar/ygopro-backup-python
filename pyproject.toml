@@ -1,7 +1,7 @@
 [project]
-name = "image-converter"
+name = "ygopro-backup"
 version = "0.1.0"
-description = "Add your description here"
+description = "CLI tools to backup YGOPro card data and images"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [

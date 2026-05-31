@@ -18,7 +18,7 @@ uv sync
 Fetch card data from the YGOPRODeck API:
 
 ```bash
-uv run fetch_cardinfo.py
+uv run main.py backup-data
 ```
 
 Output is saved to `backup/data/data.json`.
@@ -26,13 +26,7 @@ Output is saved to `backup/data/data.json`.
 Convert an image from a URL:
 
 ```bash
-uv run convert.py <image_url>
-```
-
-**Example:**
-
-```bash
-uv run convert.py "https://example.com/photo.png"
+uv run main.py backup-images "https://example.com/photo.png"
 ```
 
 Output is saved to the `backup/images/` folder, named after the original file:

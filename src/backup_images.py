@@ -1,10 +1,10 @@
-import sys
 import urllib.request
 from pathlib import Path
+
 from PIL import Image
 
+from src import BACKUP_DIR
 
-BACKUP_DIR = Path(__file__).parent / "backup"
 IMAGES_DIR = BACKUP_DIR / "images"
 
 
@@ -22,7 +22,6 @@ def convert_to_webp(source: Path, stem: str) -> Path:
     output_path = IMAGES_DIR / f"{stem}.webp"
 
     with Image.open(source) as img:
-        # Preserve transparency if present (e.g. PNG)
         if img.mode in ("RGBA", "LA", "PA"):
             img.save(output_path, format="WEBP", lossless=True, quality=100, method=6)
         else:
@@ -32,12 +31,7 @@ def convert_to_webp(source: Path, stem: str) -> Path:
     return output_path
 
 
-def main():
-    if len(sys.argv) != 2:
-        print("Usage: uv run convert.py <image_url>")
-        sys.exit(1)
-
-    url = sys.argv[1]
+def run(url: str) -> None:
     IMAGES_DIR.mkdir(exist_ok=True)
 
     tmp_path, stem = download_image(url)
@@ -60,7 +54,3 @@ def main():
 
     finally:
         tmp_path.unlink(missing_ok=True)
-
-
-if __name__ == "__main__":
-    main()

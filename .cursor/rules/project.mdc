@@ -1,0 +1,24 @@
+---
+description: YGOPro backup CLI — project overview and layout
+alwaysApply: true
+---
+
+# YGOPro Backup
+
+Python CLI (3.12+, `uv`) to backup YGOPro card data from YGOPRODeck and convert card images to lossless WEBP.
+
+## Layout
+
+- `main.py` — root entry; delegates to `src/cli.py`
+- `src/cli.py` — argparse subcommands
+- `src/backup_data.py` — `backup-data` → `backup/data/data.json`
+- `src/backup_images.py` — `backup-images <url>` → `backup/images/*.webp`
+- `backup/` — output only; not source
+
+Run: `uv run main.py backup-data` or `uv run main.py backup-images <url>`.
+
+New commands: add `src/<module>.py`, wire subcommand in `src/cli.py`.
+
+## Agent
+
+Never run `main.py` unless the user explicitly asks.
