@@ -21,7 +21,11 @@ Fetch card data from the YGOPRODeck API:
 uv run main.py backup-data
 ```
 
-Output is saved to `backup/data/data.json`.
+Output is saved under `backup/data/`:
+
+- `data.json` — card info
+- `archetypes.json` — archetype names
+- `cardsets.json` — TCG set metadata
 
 Convert an image from a URL:
 
