@@ -24,11 +24,7 @@ def convert_to_webp(source: Path, stem: str) -> Path:
     output_path = IMAGES_DIR / f"{stem}.webp"
 
     with Image.open(source) as img:
-        if img.mode in ("RGBA", "LA", "PA"):
-            img.save(output_path, format="WEBP", lossless=True, quality=100, method=6)
-        else:
-            img = img.convert("RGB")
-            img.save(output_path, format="WEBP", lossless=True, quality=100, method=6)
+        img.convert("RGB").save(output_path, format="WEBP", quality=75, method=6)
 
     return output_path
 

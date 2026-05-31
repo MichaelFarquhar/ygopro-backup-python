@@ -14,7 +14,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     backup_images_parser = subparsers.add_parser(
         "backup-images",
-        help="Download an image from a URL and convert it to lossless WEBP",
+        help="Download a JPEG from a URL and convert it to WEBP",
     )
     backup_images_parser.add_argument("url", help="URL of the image to download and convert")
 
